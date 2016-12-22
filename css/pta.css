@@ -1,0 +1,43 @@
+#MainHeader{
+    font-family: 'Lemonada', cursive;
+    color: #000000;
+    font-size: 5vw;
+    text-align: center;
+    text-shadow: 4px 4px 4px #aaa;
+    font-weight: bold;
+
+}
+
+.pta-label{
+    color: cornflowerblue;
+    font-size: 25px;
+    font-family: 'Lobster', cursive;
+}
+
+.customselect-type1{
+    height: auto;
+    padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
+    background-color: #fff;
+    border: 1px solid #D1D1D1;
+    border-radius: 4px;
+    box-shadow: none;
+    box-sizing: border-box;
+    width: inherit;
+    font-family: 'Roboto Slab', 'cursive';
+    font-size: 20px;
+}
+
+#nearby-bus-map
+{
+    height: 600px;
+    width: 100%;
+}
+
+#nearby-bus-routing-options
+{
+    background-color: #FFE6FF;
+}
+
+#zone-selection{
+    background-color: inherit;
+}

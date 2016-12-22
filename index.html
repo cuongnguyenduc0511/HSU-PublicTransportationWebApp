@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Xe buýt Đại Học Hoa Sen</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Lemonada:300,400,600,700&amp;subset=vietnamese" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Patrick+Hand+SC" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/pta.css">
+    <script src="./js/jquery-3.1.1.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/spin.min.js"></script>
+
+    <!-- Service Workers–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <script>
+        if ('serviceWorker' in navigator)
+        {
+            navigator.serviceWorker.register('/HSU-PublicTransportationWebApp/pta-sw.js',{scope: '/HSU-PublicTransportationWebApp/'}).then(function(registration){
+                console.log("SW Register Successful!!");
+            }).catch(function(error)
+            {
+                console.log("SW Register Failed!!: " + error)
+            });
+        }
+    </script>
+
+
+</head>
+<body>
+    <div class="container-fluid" style="background-color: #c8e5bc;">
+        <h1 id="MainHeader">XE BUÝT ĐẠI HỌC HOA SEN</h1>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div id="offline-alert" class="alert alert-warning" role="alert" style="margin-top: 2%">
+                    <strong>Thông báo:</strong> Bạn đang trong tình trạng mạng chập chờn/offline. Chức năng tìm đường đã bị vô hiệu hóa do không có mạng internet. Hãy kiểm tra internet của bạn !
+                    <br>Bạn có thể xem ảnh bản đồ
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row" style="background-color: #EFFFFF;">
+            <div id="zone-selection" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="container-fluid">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label class="pta-label" style="margin-top:3%;">Chọn khu vực trường <span class="glyphicon glyphicon-pushpin" aria-hidden="true" style="color:green"></span></label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <select id="zone" class="customselect-type1">
+                            <option data-value='{"lat":10.853786,"lng":106.628495}'>Đại Học Hoa Sen - Công Viên Phần Mềm Quang Trung</option>
+                            <option data-value='{"lat":10.807035,"lng":106.665629}'>Đại Học Hoa Sen - Cơ Sở Tản Viên</option>
+                            <option data-value='{"lat":10.770358,"lng":106.692516}'>Đại Học Hoa Sen - Nguyễn Văn Tráng</option>
+                            <option data-value='{"lat":10.772264,"lng":106.679226}'>Đại Học Hoa Sen - Cơ sở Cao Thắng</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <button id="find-bus" class="btn btn-danger btn-lg" style="margin-top: 3%; margin-bottom: 5%; font-size:20px; width: inherit">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true" style="color:#ffffff"></span>
+                            <span>TÌM BẾN XE</span>
+                        </button>
+                    </div>
+                    <div id="spinner" class="col-xs-12 col-sm-12 col-md-12">
+                        <div id="spin"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="nearby-bus-routing-options" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="container-fluid">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label class="pta-label" style="margin-top:3%;">Địa điểm xuất phát <span class="glyphicon glyphicon-pushpin" aria-hidden="true" style="color:lightblue"></span></label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <select id="start" class="customselect-type1">
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <label class="pta-label" style="margin-top:3%;">Bến xe cần đến  <span class="glyphicon glyphicon-pushpin" aria-hidden="true" style="color:lightblue"></span></label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <select id="destination" class="customselect-type1" style="margin-bottom: 5%">
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <button id="route-nearby-bus" class="btn btn-info btn-lg" style="margin-bottom: 5%; font-size:20px; width: inherit">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true" style="color:#ffffff"></span>
+                            <span>TÌM ĐƯỜNG ĐI</span>
+                        </button>
+                    </div>
+                    <div id="spinner2" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div id="spin2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div id="nearby-bus-map">
+        </div>
+        <div id="nearby-bus-offline-map">
+            <img id="nearby-bus-offline-map-image" class="img-responsive" src="">
+        </div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyAbaP5gHCwzVvk8bzhk7-og7dwBvN-uOOM&v=3"></script>
+    <script src="./js/main_pta.js">
+
+</script>
+
+
+</body>
+</html>
